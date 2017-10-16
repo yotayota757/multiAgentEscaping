@@ -2,6 +2,8 @@ import java.awt.*;
 
 public class Rein_actions{
 
+  private int test = 1000;
+
   //2^5
   private double[][][] q = new double[32][4];;
   //減衰率
@@ -119,7 +121,7 @@ private int share_information(){
 
   private Point explore(){
     //ランダムに移動する、偵察するという意味で
-    Point movement = getMovementTo(x,y); 
+    Point movement = getMovementTo(x,y);
     return movement;
   }
 
