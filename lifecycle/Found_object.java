@@ -9,13 +9,15 @@ public class Found_object{
     obj = new LinkedList();
   }
 
+  //見つけたobjを管理
   public addFoundobj(x,y){
     Point location = new Point(x,y);
     obj.add(location);
   }
 
+  //見つけたobjを取得
   public getFoundObj(){
-    return obj;
+    return this.obj;
   }
 
   public isObjNear(Creature crt){
@@ -30,13 +32,14 @@ public class Found_object{
     return false;
   }
 
+  //二点間の距離を返す
   @static
   protected int getDistance(int x, int y, int x2, int y2) {
     double distance = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
     return (int) distance;
   }
 
-  public getNearestObj(selfX, selfY){
+  public Point getNearestObj(selfX, selfY){
     Iterator itr = obj.iterator();
     Iterator nearest = false;
     while(itr.hasNext()){

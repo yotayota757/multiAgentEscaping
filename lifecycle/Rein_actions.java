@@ -52,6 +52,12 @@ public class Rein_actions{
     return bestAct;
   }
 
+  //即時報酬
+  public int reward(){
+
+    return 0;
+  }
+
 ////////////////////////////////////////////////////////////////
 //行動群
 
@@ -69,23 +75,52 @@ private int share_information(){
   }
 
   private Point move_to_ally(){
-    //一番近くの味方に近く
-    return 0;
+    //一番近くの味方を取得
+    Creature ally = getNearestAlly();
+    if(!ally){
+      //no ally founded
+
+    }else{
+      //それに向けた移動方向を取得
+      Point movement = getMovementTo(ally);
+    }
+    return movement;
   }
 
   private Point run_away(){
     //孤立する形で逃げる
-    return 0;
+    //なんでもいいから視界内のCreatureから逃げる
+    Creature any = getNearestCrt();
+    if(!any){
+      //nothing is in sight
+
+    }else{
+      //それに向けた移動方向を取得
+      Point movement = getMovementTo(any);
+      //-1倍する
+      movement = new Point(movement.getX()*-1,movement.getY()*-1);
+    }
+    return movement;
   }
 
   private Point move_to_object(){
     //目的を食いに行く
-    return 0;
+    //なんでもいいから視界内のCreatureから逃げる
+    Creature obj = getNearestObj();
+    if(!obj){
+      //no obj is founded
+
+    }else{
+      //それに向けた移動方向を取得
+      Point movement = getMovementTo(obj);
+    }
+    return movement;
   }
 
   private Point explore(){
     //ランダムに移動する、偵察するという意味で
-    return 0;
+    Point movement = getMovementTo(x,y); 
+    return movement;
   }
 
 }
