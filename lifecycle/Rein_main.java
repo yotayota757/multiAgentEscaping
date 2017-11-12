@@ -1,11 +1,12 @@
 import java.awt.*;
+import java.util.*;
 
 public class Rein_main{
   private Rein_actions act;
-  private Rein_envirnment env;
+  private Rein_environment env;
 
   public Rein_main(LinkedList all){
-    this.env = new Rein_envirnment(all);
+    this.env = new Rein_environment(all);
     this.act = new Rein_actions();
   }
 

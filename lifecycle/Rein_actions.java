@@ -1,11 +1,12 @@
 import java.awt.*;
+import java.util.*;
 
 public class Rein_actions{
 
   private int test = 1000;
 
   //2^5
-  private double[][][] q = new double[32][4];;
+  private double[][] q = new double[32][4];
   //減衰率
   private final double ganma = 0.6;
   //学習率
@@ -15,15 +16,20 @@ public class Rein_actions{
   //最終スコア
   private double score = 0;
 
-  public Rein_actions(){
+  private Random rnd = new Random();
+
+  private Bug self;
+
+  public Rein_actions(Bug bug){
+    this.self = bug;
     init();
   }
 
-  private init(){
+  private void init(){
     //それ以外の値をランダムに生成
     for(int i=0;i<32;i++){
       for(int j=0;j<4;j++){
-        q[i][j][k] = rnd.nextFloat();
+        q[i][j] = rnd.nextFloat();
       }
     }
   }
@@ -63,28 +69,29 @@ public class Rein_actions{
 ////////////////////////////////////////////////////////////////
 //行動群
 
-private int share_information(){
-  //常時
-  //視界の中の味方に自分の情報を与える（仮）
-  //Creature それぞれが Danger_areaとobjectの位置を把握するマッピングが必要
-  //情報を持った奴が教えるか、情報を持っていることを察知してもらうかはまだ決めていない
-  return 0;
-}
+  private int share_information(){
+    //常時
+    //視界の中の味方に自分の情報を与える（仮）
+    //Creature それぞれが Danger_areaとobjectの位置を把握するマッピングが必要
+    //情報を持った奴が教えるか、情報を持っていることを察知してもらうかはまだ決めていない
+    return 0;
+  }
 
   private Point search_enemies(){
     //危険エリアに行く or なかったらexplore or なかったら
-    return 0;
+    return null;
   }
 
   private Point move_to_ally(){
     //一番近くの味方を取得
-    Creature ally = getNearestAlly();
-    if(!ally){
+    Point movement;
+    Creature ally = self.getNearestAlly();
+    if(ally == null){
       //no ally founded
-
+      movement = null;
     }else{
       //それに向けた移動方向を取得
-      Point movement = getMovementTo(ally);
+      movement = self.getMovementTo(ally);
     }
     return movement;
   }
@@ -92,13 +99,14 @@ private int share_information(){
   private Point run_away(){
     //孤立する形で逃げる
     //なんでもいいから視界内のCreatureから逃げる
-    Creature any = getNearestCrt();
-    if(!any){
+    Point movement;
+    Creature any = self.getNearestCrt();
+    if(any == null){
       //nothing is in sight
-
+      movement = null;
     }else{
       //それに向けた移動方向を取得
-      Point movement = getMovementTo(any);
+      movement = self.getMovementTo(any);
       //-1倍する
       movement = new Point(movement.getX()*-1,movement.getY()*-1);
     }
@@ -108,20 +116,21 @@ private int share_information(){
   private Point move_to_object(){
     //目的を食いに行く
     //なんでもいいから視界内のCreatureから逃げる
-    Creature obj = getNearestObj();
-    if(!obj){
+    Point movement;
+    Creature obj = self.getNearestObj();
+    if(obj = null){
       //no obj is founded
-
+      movement = null;
     }else{
       //それに向けた移動方向を取得
-      Point movement = getMovementTo(obj);
+      movement = self.getMovementTo(obj);
     }
     return movement;
   }
 
   private Point explore(){
     //ランダムに移動する、偵察するという意味で
-    Point movement = getMovementTo(x,y);
+    Point movement = self.getMovementTo(self.x,self.y);
     return movement;
   }
 

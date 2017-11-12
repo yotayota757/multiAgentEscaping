@@ -31,9 +31,10 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
     public static final int WIDTH = 450;
     public static final int HEIGHT = 450;
 
-    public static final int BUG_NUM = 4;
-    public static final int BLOODY_NUM = 2;
-    public static final int PLANT_NUM = 1;
+    public static final int PLANT_NUM = 4;
+    public static final int BUG_NUM = 2;
+    public static final int BLOODY_NUM = 1;
+
 
     public static Bug bug;
     public static Bloody bloody;
@@ -41,14 +42,15 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
 
     public Status st;
     public Creature selected = null;
+    public boolean paused = false;
+    public boolean display_info = false;
 
     private int counter = 0;
 
-    private LinkedList all;
+    public LinkedList all;
     public LinkedList plants,bloodies,bugs;
 
     private Thread gameLoop;
-    private boolean paused = true;
 
     private int alive_duration = 0;
     private int alive_num = 0;
@@ -70,7 +72,7 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
         bloodies = new LinkedList();
         plants = new LinkedList();
         all = new LinkedList();
-        st = new Status(WIDTH);
+        st = new Status(WIDTH,this);
 
         for(int i=0;i<PLANT_NUM;i++){
             int rnd_x = (int)(Math.random()*WIDTH);

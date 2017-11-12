@@ -82,6 +82,11 @@ public abstract class Creature{
         }
     }
 
+    protected static int getDistance(int x, int y, int x2, int y2) {
+      double distance = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
+      return (int) distance;
+    }
+
     public int getX(){
         return this.x;
     }
