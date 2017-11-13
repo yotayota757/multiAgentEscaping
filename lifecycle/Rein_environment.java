@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.*;
 
 public class Rein_environment{
+  private int result;
   public Rein_environment(){
   }
 //1・危険エリアに近い（敵がいそうな場所）
@@ -22,7 +23,11 @@ public class Rein_environment{
     }else if(bug.getNearestCrt() instanceof Plant){
       result += 16;
     }
+    this.result = result;
     return result;
   }
 
+  public int getResult(){
+    return this.result;
+  }
 }

@@ -6,10 +6,6 @@ public class Bug extends Creature{
 
     private MainPanel mp ;
     private int share_size = 60; //情報共有範囲
-    private Rein_main rein; //学習データの取得クラス
-    public Danger_area danger_areas; //自分が知っている危険エリアのクラス
-    public Found_object objects;
-    private LinkedList<Creature> crtInSight; //視界内のCreatureのリスト
 
     public Bug(int x ,int y, int randt, int direction, MainPanel mp){
         this.x = x;
@@ -31,20 +27,29 @@ public class Bug extends Creature{
         this.sight_size = 100;
         this.mp = mp;
 
-        rein = new Rein_main(mp.all);
-        danger_areas = new Danger_area();
-        crtInSight = new LinkedList<Creature>();
+        this.rein = new Rein_main(this);
+        this.objects = new Found_object();
+        this.danger_areas = new Danger_area();
+        this.crtInSight = new LinkedList<Creature>();
     }
 
     public void move(){
         super.move();
         super.changeDirRandt();
         this.flame++;
+        getCrtInSight();
 
-        Point nextMove = rein.getMove(this);
-
-        x += nextMove.getX();
-        y += nextMove.getY();
+        Point nextMove = rein.getMove();
+        if(nextMove == null){
+          x += 0;
+          y += 0;
+        }
+        else{
+          x += nextMove.getX();
+          y += nextMove.getY();
+        }
+        //x += vx;
+        //y += vy;
     }
 
 
@@ -66,6 +71,40 @@ public class Bug extends Creature{
           crtInSight.add(crt);
         }
       }
+    }
+
+    public Creature getNearestAlly(){
+      Iterator itr = crtInSight.iterator();
+      int nearestDis = this.sight_size;
+      Creature nearestCrt = null;
+      while(itr.hasNext()){
+        Creature crt = (Creature)itr.next();
+        if(crt instanceof Bug){
+          int newDistance = Danger_area.getDistance(this.x,this.y,crt.x,crt.y);
+          if(newDistance < nearestDis){
+            nearestDis = newDistance;
+            nearestCrt = crt;
+          }
+        }
+      }
+      return nearestCrt;
+    }
+
+    public Creature getNearestObj(){
+      Iterator itr = crtInSight.iterator();
+      int nearestDis = this.sight_size;
+      Creature nearestCrt = null;
+      while(itr.hasNext()){
+        Creature crt = (Creature)itr.next();
+        if(crt instanceof Plant){
+          int newDistance = Danger_area.getDistance(this.x,this.y,crt.x,crt.y);
+          if(newDistance < nearestDis){
+            nearestDis = newDistance;
+            nearestCrt = crt;
+          }
+        }
+      }
+      return nearestCrt;
     }
 
     //視界内の一番近いCreatureを返す

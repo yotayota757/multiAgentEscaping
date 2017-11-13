@@ -42,13 +42,15 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
 
     public Status st;
     public Creature selected = null;
-    public boolean paused = false;
+    public boolean paused = true;
     public boolean display_info = false;
 
     private int counter = 0;
 
-    public LinkedList all;
-    public LinkedList plants,bloodies,bugs;
+    public LinkedList<Creature> all;
+    public LinkedList<Plant> plants;
+    public LinkedList<Bug> bugs;
+    public LinkedList<Bloody> bloodies;
 
     private Thread gameLoop;
 
@@ -68,10 +70,10 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
 
     //初期化
     public void init(){
-        bugs = new LinkedList();
-        bloodies = new LinkedList();
-        plants = new LinkedList();
-        all = new LinkedList();
+        all = new LinkedList<Creature>();
+        bugs = new LinkedList<Bug>();
+        bloodies = new LinkedList<Bloody>();
+        plants = new LinkedList<Plant>();
         st = new Status(WIDTH,this);
 
         for(int i=0;i<PLANT_NUM;i++){
@@ -122,7 +124,7 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
         //フレームカウンター
         counter++;
         //オブジェクト管理
-        ListIterator itera = all.listIterator();
+        ListIterator<Creature> itera = all.listIterator();
         while(itera.hasNext() && !paused){
           Creature creat = (Creature)itera.next();
 

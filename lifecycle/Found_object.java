@@ -49,4 +49,8 @@ public class Found_object{
     }
     return new Point((int)nearest.getX(), (int)nearest.getY());
   }
+
+  public int getSize(){
+    return this.obj.size();
+  }
 }

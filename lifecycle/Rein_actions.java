@@ -36,7 +36,7 @@ public class Rein_actions{
 
   //状態値のQ値から最善の行動に沿った関数を呼び、移動方向
   public Point learn(int env){
-    Point result;
+    Point result = null;
 
     switch(getBestAct(q[env])){
       case 0: result = search_enemies();break;
@@ -108,17 +108,16 @@ public class Rein_actions{
       //それに向けた移動方向を取得
       movement = self.getMovementTo(any);
       //-1倍する
-      movement = new Point(movement.getX()*-1,movement.getY()*-1);
+      movement = new Point((int)movement.getX()*-1,(int)movement.getY()*-1);
     }
     return movement;
   }
 
   private Point move_to_object(){
     //目的を食いに行く
-    //なんでもいいから視界内のCreatureから逃げる
     Point movement;
     Creature obj = self.getNearestObj();
-    if(obj = null){
+    if(obj == null){
       //no obj is founded
       movement = null;
     }else{

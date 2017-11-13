@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.*;
 
 public abstract class Creature{
     public int spawn;
@@ -19,6 +20,12 @@ public abstract class Creature{
     public boolean dead = false;
     public int flame; //生存フレーム数
     public int sight_size;
+
+    //本当は学習クラスのみに置きたい変数たち
+    public Rein_main rein; //学習データの取得クラス
+    public Danger_area danger_areas; //自分が知っている危険エリアのクラス
+    public Found_object objects;  //目的のクラス
+    public LinkedList<Creature> crtInSight; //視界内のCreatureのリスト
 
     public void change_direction(){
         int direction = (int)(Math.random()*4);
@@ -82,9 +89,18 @@ public abstract class Creature{
         }
     }
 
-    protected static int getDistance(int x, int y, int x2, int y2) {
-      double distance = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
-      return (int) distance;
+    public Point getMovementTo(Creature crt){
+      return getMovementTo(crt.x, crt.y);
+    }
+
+    public Point getMovementTo(int target_x, int target_y){
+      double angle = Math.atan2(this.y-target_y,this.x-target_x);
+      int temp_vx = -(int)(2*Math.cos(angle));
+      if(temp_vx>1) temp_vx = 1; //2になる可能性があるため
+      int temp_vy = -(int)(2*Math.sin(angle));
+      if(temp_vy>1) temp_vy = 1;
+
+      return new Point(temp_vx,temp_vy);
     }
 
     public int getX(){
