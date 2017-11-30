@@ -31,9 +31,9 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
     public static final int WIDTH = 450;
     public static final int HEIGHT = 450;
 
-    public static final int PLANT_NUM = 4;
-    public static final int BUG_NUM = 2;
-    public static final int BLOODY_NUM = 1;
+    public static final int PLANT_NUM = 16;
+    public static final int BUG_NUM = 8;
+    public static final int BLOODY_NUM = 4;
 
 
     public static Bug bug;
@@ -105,12 +105,22 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
 
     //描画
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        Iterator itera = all.iterator();
-        while(itera.hasNext()){
-            Creature creat = (Creature)itera.next();
-            creat.draw(g);
+      super.paintComponent(g);
+      Iterator itera = all.iterator();
+      while(itera.hasNext()){
+        Creature creat = (Creature)itera.next();
+        creat.draw(g);
+      }
+      //視界情報
+      if(this.display_info && this.selected != null){
+        Iterator<Area> areaList = selected.danger_areas.get_area().iterator();
+        while(areaList.hasNext()){
+          Area nextArea = (Area)areaList.next();
+          g.setColor(new Color(255,200,220,30));
+          g.fillOval(nextArea.x-nextArea.radius/2,nextArea.y-nextArea.radius/2,
+                      nextArea.radius,nextArea.radius);
         }
+      }
     }
 //////////////////////////////////////////////////////////
 //Loop thread

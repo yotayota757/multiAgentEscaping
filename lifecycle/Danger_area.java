@@ -10,13 +10,32 @@ public class Danger_area{
     area = new LinkedList<Area>();
   }
 
+  public void update(){
+    Iterator itr = area.iterator();
+    while(itr.hasNext()){
+      Area nextArea = (Area)itr.next();
+      nextArea.duration--;
+    }
+    //最初を見て消す
+    if(area.size() > 0){
+      Area temp = area.getFirst();
+      if(temp == null) return;
+      else if(temp.duration <= 0) area.pop();
+    }
+  }
+
   //エリアの追加
   public void addArea(int x,int y){
     area.add(new Area(x,y));
   }
 
+  //エリアの削除
+  public void remove(int i){
+    this.area.remove(i);
+  }
+
   //エリアの取得
-  public LinkedList get_area(){
+  public LinkedList<Area> get_area(){
     return this.area;
   }
 
@@ -36,19 +55,5 @@ public class Danger_area{
   protected static int getDistance(int x, int y, int x2, int y2) {
     double distance = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
     return (int) distance;
-  }
-
-  //危険エリアのクラス
-  private class Area{
-    public int x;
-    public int y;
-    public int radius = 200;
-    public Color clr = new Color(255,0,0);
-    public int duration = 300;
-
-    public Area(int x,int y){
-      this.x = x;
-      this.y = y;
-    }
   }
 }

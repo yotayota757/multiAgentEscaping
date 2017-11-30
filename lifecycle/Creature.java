@@ -103,6 +103,11 @@ public abstract class Creature{
       return new Point(temp_vx,temp_vy);
     }
 
+    // not prefered writing here
+    public int howManyCrtInSight(){
+       return 0;
+    }
+
     public int getX(){
         return this.x;
     }

@@ -34,43 +34,58 @@ public class Bug extends Creature{
     }
 
     public void move(){
-        super.move();
-        super.changeDirRandt();
-        this.flame++;
-        getCrtInSight();
+      super.move();
+      //super.changeDirRandt(); // no need to call ?
+      this.init();
+      this.flame++;
+      this.getCrtInSight();
 
-        Point nextMove = rein.getMove();
-        if(nextMove == null){
-          x += 0;
-          y += 0;
-        }
-        else{
-          x += nextMove.getX();
-          y += nextMove.getY();
-        }
-        //x += vx;
-        //y += vy;
+      Point nextMove = rein.getMove();
+      if(nextMove == null){
+        x += 0;
+        y += 0;
+      }
+      else{
+        x += nextMove.getX();
+        y += nextMove.getY();
+      }
+      //x += vx;
+      //y += vy;
     }
 
+    private void init(){
+      //視界内のリストを初期化
+      this.crtInSight.clear();
+      //危険エリアの更新
+      this.danger_areas.update();
+    }
 
-    //視界内のCreatureを取得する
+    //自分を除く、視界内のCreatureを取得する
     public void getCrtInSight(){
       Iterator itr = mp.all.iterator();
+      Rectangle firstRect = new Rectangle(x+SIZE/2-sight_size/2,
+                                          y+SIZE/2-sight_size/2,
+                                          sight_size,sight_size);
       while(itr.hasNext()){
         Creature crt = (Creature)itr.next();
-        Rectangle firstRect = new Rectangle(x+SIZE/2-sight_size/2,
-                                            y+SIZE/2-sight_size/2,
-                                            sight_size,sight_size);
-        Rectangle creatureRect = new Rectangle(getX(),getY(),
-                                        getSize(), getSize());
+        Rectangle creatureRect = new Rectangle(crt.getX(),crt.getY(),
+                                        crt.getSize(), crt.getSize());
         if(firstRect.intersects(creatureRect)){
           //視界にいる
-          if(crt instanceof Bloody){
+          //己
+          if(crt.x == x && crt.y == y){
+            continue;
+          }
+          else if(crt instanceof Bloody){
             danger_areas.addArea(crt.getX(), crt.getY());
           }
           crtInSight.add(crt);
         }
       }
+    }
+
+    public int howManyCrtInSight(){
+      return this.crtInSight.size();
     }
 
     public Creature getNearestAlly(){

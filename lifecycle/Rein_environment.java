@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Rein_environment{
   private int result;
+  private String envBit;
   public Rein_environment(){
   }
 //1・危険エリアに近い（敵がいそうな場所）
@@ -12,19 +13,41 @@ public class Rein_environment{
 //16・視界の中で一番近いのが目的
 
   //状態の判定
-  public int calculate_env(Bug bug){
-    int result = 0;
-    if(bug.danger_areas.isAreaNear(bug)) result += 1;
-    if(bug.objects.isObjNear(bug)) result += 2;
-    if(bug.getNearestCrt() instanceof Bloody){
-      result += 4;
-    }else if(bug.getNearestCrt() instanceof Bug){
-      result += 8;
-    }else if(bug.getNearestCrt() instanceof Plant){
-      result += 16;
-    }
-    this.result = result;
-    return result;
+  public int calculate_env(Bug self){
+    this.result = 0;
+    this.envBit = "";
+    if(self.danger_areas.isAreaNear(self)){
+      this.envBit += "1";
+      this.result += 1;
+    }else this.envBit += "0";
+
+    if(self.objects.isObjNear(self)){
+      this.envBit += " 1";
+      this.result += 2;
+    }else this.envBit += " 0";
+
+    Creature nearest = self.getNearestCrt();
+
+    if(nearest instanceof Bloody){
+      this.envBit += " 1";
+      this.result += 4;
+    }else this.envBit += " 0";
+
+    if(nearest instanceof Bug){
+      this.envBit += " 1";
+      this.result += 8;
+    }else this.envBit += " 0";
+
+    if(nearest instanceof Plant){
+      this.envBit += " 1";
+      this.result += 16;
+    }else this.envBit += " 0";
+
+    return this.result;
+  }
+
+  public String getEnvBit(){
+    return this.envBit;
   }
 
   public int getResult(){

@@ -26,7 +26,7 @@ class StatusMain extends JPanel implements ActionListener{
 
   //controller
   private MainPanel main;
-  private JButton pause = new JButton("pause");
+  private JButton pause = new JButton("start");
   private JButton info = new JButton("info");
 
 
@@ -54,8 +54,14 @@ class StatusMain extends JPanel implements ActionListener{
 
   public void actionPerformed(ActionEvent e){
     if(e.getSource() == pause){
-      if(main.paused == true) main.paused = false;
-      else main.paused = true;
+      if(main.paused == true) {
+        pause.setText("pause");
+        main.paused = false;
+      }
+      else {
+        pause.setText("start");
+        main.paused = true;
+      }
     }
     else if(e.getSource() == info){
       if(main.display_info == true) main.display_info = false;
@@ -70,11 +76,13 @@ class StatusMain extends JPanel implements ActionListener{
       if(selected instanceof Bug){
         g.drawString("Reinforce Environment",100,40);
         g.drawString("1|2|4|8|16",110,60);
-        g.drawString(Integer.toBinaryString(selected.rein.getResult())+
-                                    " = "+selected.rein.getResult(),110,70);
+        g.drawString(selected.rein.getBit()+
+                                    " = "+selected.rein.getInteger(),110,70);
 
-        g.drawString("Found Object :", 100, 100);
-        g.drawString(""+selected.objects.getSize(), 100, 110);
+        g.drawString("Creature in sight :", 70, 90);
+        g.drawString(""+selected.howManyCrtInSight(), 200, 90);
+        g.drawString("Found Object :", 80, 110);
+        g.drawString(""+selected.objects.getSize(), 200, 110);
       }
       else{
         g.drawString("spawn:", 100, 40);
@@ -91,22 +99,6 @@ class StatusMain extends JPanel implements ActionListener{
         }else{
           selected = null;
         }
-      }
-
-
-      g.drawString("spawn:", 100, 40);
-      g.drawString("hunger:", 100, 70);
-      g.drawString("ate:", 100, 100);
-      g.drawString("raised:", 100, 130);
-      //起動時重くなる原因　不明
-      if(selected!=null)if(!selected.dead){
-        g.drawString(""+selected.spawn, 200, 40);
-        g.drawString(""+selected.hunger, 200, 70);
-        g.drawString(""+selected.ate, 200, 100);
-        g.drawString(""+selected.raised, 200, 130);
-        g.drawString(""+selected.countsup, 200, 160);
-      }else{
-        selected = null;
       }
   }
 

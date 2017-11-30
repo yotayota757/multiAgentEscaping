@@ -22,7 +22,12 @@ public class Rein_main{
     return result;
   }
 
-  public int getResult(){
+  public String getBit(){
+    return this.env.getEnvBit();
+  }
+
+  public int getInteger(){
     return this.env.getResult();
   }
+
 }
