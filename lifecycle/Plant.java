@@ -18,7 +18,7 @@ public class Plant extends Creature{
 
     public void draw(Graphics g){
       super.draw(g);
-      g.fillPolygon(new int[] {x-SIZE/2,x,x+SIZE/2},
-                      new int[] {y+SIZE/2,y-SIZE/2,y+SIZE/2},3);
+      g.fillPolygon(new int[] {x+SIZE/2,x+SIZE,x},
+                      new int[] {y,y+SIZE,y+SIZE},3);
     }
 }

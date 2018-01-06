@@ -49,8 +49,6 @@ public class Bug extends Creature{
         x += nextMove.getX();
         y += nextMove.getY();
       }
-      //x += vx;
-      //y += vy;
     }
 
     private void init(){
@@ -63,8 +61,9 @@ public class Bug extends Creature{
     //自分を除く、視界内のCreatureを取得する
     public void getCrtInSight(){
       Iterator itr = mp.all.iterator();
-      Rectangle firstRect = new Rectangle(x+SIZE/2-sight_size/2,
-                                          y+SIZE/2-sight_size/2,
+      //自分の視界の範囲
+      Rectangle firstRect = new Rectangle(x+this.SIZE/2-sight_size/2,
+                                          y+this.SIZE/2-sight_size/2,
                                           sight_size,sight_size);
       while(itr.hasNext()){
         Creature crt = (Creature)itr.next();
@@ -72,12 +71,15 @@ public class Bug extends Creature{
                                         crt.getSize(), crt.getSize());
         if(firstRect.intersects(creatureRect)){
           //視界にいる
-          //己
+          //己、問題あり
           if(crt.x == x && crt.y == y){
             continue;
           }
           else if(crt instanceof Bloody){
             danger_areas.addArea(crt.getX(), crt.getY());
+          }
+          else if(crt instanceof Plant){
+            this.objects.addFoundobj(crt.getX(), crt.getY());
           }
           crtInSight.add(crt);
         }
@@ -86,6 +88,11 @@ public class Bug extends Creature{
 
     public int howManyCrtInSight(){
       return this.crtInSight.size();
+    }
+
+    protected static int getDistance(int x, int y, int x2, int y2) {
+      double distance = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
+      return (int) distance;
     }
 
     public Creature getNearestAlly(){

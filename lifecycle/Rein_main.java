@@ -30,4 +30,8 @@ public class Rein_main{
     return this.env.getResult();
   }
 
+  public int getAct(){
+    return this.act.getChosenAct();
+  }
+
 }

@@ -16,7 +16,7 @@ public class Status extends JFrame{
   }
 
   public void send(Creature creat){
-    st.display(creat);
+    st.update(creat);
   }
 }
 
@@ -78,11 +78,21 @@ class StatusMain extends JPanel implements ActionListener{
         g.drawString("1|2|4|8|16",110,60);
         g.drawString(selected.rein.getBit()+
                                     " = "+selected.rein.getInteger(),110,70);
+        String action = null;
+        switch(selected.rein.getAct()){
+          case 0: action = "stay"; break;
+          case 1: action = "run away"; break;
+          case 2: action = "move_to_ally"; break;
+          case 3: action = "move_to_object"; break;
+          case 4: action = "explore"; break;
+          default: action = "null"; break;
+        }
+        g.drawString("action = "+action, 70,90);
 
-        g.drawString("Creature in sight :", 70, 90);
-        g.drawString(""+selected.howManyCrtInSight(), 200, 90);
-        g.drawString("Found Object :", 80, 110);
-        g.drawString(""+selected.objects.getSize(), 200, 110);
+        g.drawString("Creature in sight :", 70, 110);
+        g.drawString(""+selected.howManyCrtInSight(), 200, 110);
+        g.drawString("Found Object :", 80, 130);
+        g.drawString(""+selected.objects.getSize(), 200, 130);
       }
       else{
         g.drawString("spawn:", 100, 40);
@@ -102,7 +112,7 @@ class StatusMain extends JPanel implements ActionListener{
       }
   }
 
-  public void display(Creature crt){
+  public void update(Creature crt){
     this.selected = crt;
     repaint();
   }

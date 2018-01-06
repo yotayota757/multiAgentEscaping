@@ -11,8 +11,14 @@ public class Found_object{
 
   //見つけたobjを管理
   public void addFoundobj(int x,int y){
-    Point location = new Point(x,y);
-    obj.add(location);
+    Iterator itr = obj.iterator();
+    while(itr.hasNext()){
+      Point nextObj = (Point)itr.next();
+      if(x == nextObj.getX() && y == nextObj.getY()){
+        return;
+      }
+    }
+    obj.add(new Point(x,y));
   }
 
   //見つけたobjを取得
@@ -20,11 +26,14 @@ public class Found_object{
     return this.obj;
   }
 
+  public void remove(int index){
+    this.obj.remove(index);
+  }
   public boolean isObjNear(Bug bug){
     Iterator itr = obj.iterator();
     while(itr.hasNext()){
-      Creature nextCrt = (Creature)itr.next();
-      if(getDistance(bug.getX(), bug.getY(), nextCrt.getX(), nextCrt.getY())
+      Point nextCrt = (Point)itr.next();
+      if(getDistance(bug.getX(), bug.getY(), (int)nextCrt.getX(), (int)nextCrt.getY())
                                                                       < NEAR){
         return true;
       }

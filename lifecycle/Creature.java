@@ -21,6 +21,10 @@ public abstract class Creature{
     public int flame; //生存フレーム数
     public int sight_size;
 
+    public int explore_x = 0;
+    public int explore_y = 0;
+    public boolean exploring = false;
+
     //本当は学習クラスのみに置きたい変数たち
     public Rein_main rein; //学習データの取得クラス
     public Danger_area danger_areas; //自分が知っている危険エリアのクラス

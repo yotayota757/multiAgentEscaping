@@ -30,8 +30,8 @@ public class Danger_area{
   }
 
   //エリアの削除
-  public void remove(int i){
-    this.area.remove(i);
+  public void remove(int index){
+    this.area.remove(index);
   }
 
   //エリアの取得

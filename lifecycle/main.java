@@ -106,11 +106,6 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
     //描画
     public void paintComponent(Graphics g){
       super.paintComponent(g);
-      Iterator itera = all.iterator();
-      while(itera.hasNext()){
-        Creature creat = (Creature)itera.next();
-        creat.draw(g);
-      }
       //視界情報
       if(this.display_info && this.selected != null){
         Iterator<Area> areaList = selected.danger_areas.get_area().iterator();
@@ -120,6 +115,24 @@ class MainPanel extends JPanel implements Runnable,MouseListener,
           g.fillOval(nextArea.x-nextArea.radius/2,nextArea.y-nextArea.radius/2,
                       nextArea.radius,nextArea.radius);
         }
+        if(this.selected.exploring == true){
+          g.setColor(new Color(0,0,0));
+          g.drawOval(this.selected.explore_x,this.selected.explore_y,5,5);
+        }
+
+      }
+      //それぞれのCreatureの描画
+      Iterator itera = all.iterator();
+      while(itera.hasNext()){
+        Creature creat = (Creature)itera.next();
+        creat.draw(g);
+      }
+
+      //選択中のCreatureの表示
+      g.setColor(new Color(0,0,0));
+      if(this.selected != null){
+        g.drawOval(this.selected.getX()-10,this.selected.getY()-10,
+                    this.selected.getSize()+20,this.selected.getSize()+20);
       }
     }
 //////////////////////////////////////////////////////////
